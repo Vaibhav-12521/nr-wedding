@@ -35,6 +35,7 @@ export type WeddingDetails = {
   faqs: Faq[];
   contacts: Contact[];
   invitation_message: string | null;
+  invitation_card_path: string | null;
   rsvp_enabled: boolean;
   rsvp_deadline: string | null;
   privacy_contact: string | null;

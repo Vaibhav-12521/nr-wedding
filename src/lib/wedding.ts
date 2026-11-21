@@ -24,6 +24,7 @@ export const DEFAULT_DETAILS: WeddingDetails = {
   faqs: [],
   contacts: [],
   invitation_message: null,
+  invitation_card_path: null,
   rsvp_enabled: true,
   rsvp_deadline: null,
   privacy_contact: null,

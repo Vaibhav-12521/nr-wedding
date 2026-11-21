@@ -338,7 +338,7 @@ export async function uploadSiteImage(form: FormData): Promise<ActionResult> {
     } catch {
       throw new Error("That file isn't a supported image.");
     }
-    const folder = z.enum(["hero", "events", "couple"]).parse(form.get("folder"));
+    const folder = z.enum(["hero", "events", "couple", "invitation"]).parse(form.get("folder"));
     const path = `${folder}/${crypto.randomUUID()}.webp`;
     const { error } = await createAdminClient().storage.from(SITE_BUCKET).upload(path, out, { contentType: "image/webp", cacheControl: "31536000" });
     if (error) throw new Error("Could not store the image.");
@@ -367,6 +367,7 @@ const detailsSchema = z.object({
   groom_intro: optionalText(3000),
   story_intro: optionalText(1500),
   invitation_message: optionalText(1500),
+  invitation_card_path: optionalText(300),
   rsvp_enabled: z.preprocess((v) => v === "on" || v === "true", z.boolean()),
   rsvp_deadline: z.string().trim().transform((v) => v || null),
   privacy_contact: optionalText(200),
