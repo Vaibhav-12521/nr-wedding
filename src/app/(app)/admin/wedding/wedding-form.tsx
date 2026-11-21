@@ -35,6 +35,8 @@ export function WeddingForm({ w }: { w: WeddingDetails }) {
           <Panel title="Homepage & invitation">
             <div className="grid gap-4">
               <ImageField name="hero_image_path" folder="hero" initial={w.hero_image_path} label="Hero background photo" />
+              <ImageField name="invitation_card_path" folder="invitation" card initial={w.invitation_card_path} label="Invitation card photo"
+                hint="A photo or scan of your printed invitation card. It's shown on the Invitation page and the homepage, and guests can download it." />
               <L label="Welcome message (homepage & story intro)"><textarea name="story_intro" defaultValue={w.story_intro ?? ""} className={textareaCls} rows={3} /></L>
               <L label="Invitation wording" hint="Shown above your names on the digital invitation."><textarea name="invitation_message" defaultValue={w.invitation_message ?? ""} className={textareaCls} rows={3} /></L>
             </div>

@@ -62,7 +62,9 @@ export function ListEditor<T extends Record<string, string | undefined>>({ name,
 
 const publicUrl = (path: string) => `${env.supabaseUrl}/storage/v1/object/public/${SITE_BUCKET}/${path}`;
 
-export function ImageField({ name, initial, folder, label, portrait }: { name: string; initial: string | null; folder: "hero" | "events" | "couple"; label: string; portrait?: boolean }) {
+export function ImageField({ name, initial, folder, label, portrait, card, hint }: {
+  name: string; initial: string | null; folder: "hero" | "events" | "couple" | "invitation"; label: string; portrait?: boolean; card?: boolean; hint?: string;
+}) {
   const [path, setPath] = useState(initial ?? "");
   const [busy, setBusy] = useState(false);
   const input = useRef<HTMLInputElement>(null);
@@ -79,11 +81,12 @@ export function ImageField({ name, initial, folder, label, portrait }: { name: s
   return (
     <div>
       <span className="text-sm font-medium">{label}</span>
+      {hint && <span className="mt-0.5 block text-xs text-taupe">{hint}</span>}
       <input type="hidden" name={name} value={path} />
       <div className="mt-1.5 flex items-center gap-3">
-        <div className={`relative overflow-hidden border border-champagne/40 bg-beige ${portrait ? "aspect-[3/4] w-28 rounded-t-full" : "aspect-[16/9] w-48 rounded-xl"}`}>
+        <div className={`relative overflow-hidden border border-champagne/40 bg-beige ${portrait ? "aspect-[3/4] w-28 rounded-t-full" : card ? "aspect-[5/7] w-32 rounded-lg" : "aspect-[16/9] w-48 rounded-xl"}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          {path && <img src={publicUrl(path)} alt="" className="h-full w-full object-cover" />}
+          {path && <img src={publicUrl(path)} alt="" className={`h-full w-full ${card ? "object-contain" : "object-cover"}`} />}
           {busy && <div className="absolute inset-0 flex items-center justify-center bg-cream/70"><Loader2 className="size-5 animate-spin text-gold" /></div>}
         </div>
         <div className="flex flex-col gap-2">
