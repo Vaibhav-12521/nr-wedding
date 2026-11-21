@@ -42,7 +42,7 @@ export function SiteHeader({ monogram, initials }: { monogram: string; initials:
   return (
     <header className={cn(
       "fixed inset-x-0 top-0 z-40 transition-all duration-500",
-      solid ? "border-b border-champagne/25 bg-ivory/85 backdrop-blur-md" : "bg-transparent",
+      solid ? "border-b border-champagne/25 bg-ivory/85 shadow-[0_8px_24px_-18px_rgba(90,60,30,0.45)] backdrop-blur-md" : "bg-transparent",
     )}>
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
         <Link href="/" className="flex items-center gap-2.5 font-display text-2xl font-semibold tracking-wide text-cocoa" aria-label="Neha's Wedding - home">
@@ -55,12 +55,17 @@ export function SiteHeader({ monogram, initials }: { monogram: string; initials:
             <li key={l.href}>
               <Link
                 href={l.href}
+                aria-current={pathname === l.href ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-3 py-2 text-[0.82rem] font-medium tracking-wide text-cocoa/80 transition hover:text-gold",
-                  pathname === l.href && "text-gold",
+                  "group relative rounded-full px-3 py-2 text-[0.82rem] font-medium tracking-wide text-cocoa/80 transition hover:text-gold-deep",
+                  pathname === l.href && "text-gold-deep",
                 )}
               >
                 {l.label}
+                <span aria-hidden className={cn(
+                  "absolute inset-x-3 bottom-1 h-px origin-center scale-x-0 bg-gradient-to-r from-transparent via-gold to-transparent transition-transform duration-300 group-hover:scale-x-100",
+                  pathname === l.href && "scale-x-100",
+                )} />
               </Link>
             </li>
           ))}

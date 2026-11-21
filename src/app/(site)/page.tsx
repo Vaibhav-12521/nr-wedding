@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowDown, Camera, Heart } from "lucide-react";
+import { ArrowDown, ArrowRight, Camera, Heart } from "lucide-react";
+import { InvitationCardPhoto } from "@/components/site/invitation-card";
 import { Countdown } from "@/components/site/countdown";
 import { InvitationIntro } from "@/components/site/invitation-intro";
 import { DOORS_SCRIPT } from "@/lib/doors";
@@ -29,6 +30,7 @@ export default async function Home() {
   const dateLine = formatDate(wedding.wedding_date, { weekday: "long", day: "numeric", month: "long", year: "numeric" })
     ?? (weddingEvent?.date_label ? `${weddingEvent.date_label}` : null);
   const hero = siteImageUrl(wedding.hero_image_path);
+  const card = siteImageUrl(wedding.invitation_card_path);
 
   return (
     <>
@@ -150,6 +152,27 @@ export default async function Home() {
           <Link href="/events" className="font-medium text-gold-deep underline-offset-8 hover:underline">All event details →</Link>
         </div>
       </section>
+
+      {card && (
+        <section className="relative overflow-hidden px-4 py-24 sm:py-32">
+          <Mandala className="pointer-events-none absolute -right-40 top-1/2 size-[36rem] -translate-y-1/2 opacity-[0.07]" />
+          <div className="relative mx-auto grid max-w-5xl items-center gap-14 md:grid-cols-2">
+            <Reveal><InvitationCardPhoto src={card} names={names} /></Reveal>
+            <Reveal delay={0.15} className="text-center md:text-left">
+              <p className="font-script text-3xl text-rose sm:text-4xl">With love</p>
+              <h2 className="mt-1 text-4xl font-medium sm:text-5xl">Our Invitation</h2>
+              <div className="mx-auto mt-5 h-px w-24 gold-rule md:mx-0" />
+              <p className="mt-6 text-base leading-relaxed text-taupe sm:text-lg">
+                {wedding.invitation_message || "We request the pleasure of your company at our wedding celebrations."}
+              </p>
+              <p className="mt-4 text-taupe">Keep a copy of our card - tap it to see it up close, or download it to share with family.</p>
+              <Link href="/invitation" className="mt-8 inline-flex items-center gap-2 font-medium text-gold-deep underline-offset-8 hover:underline">
+                Open the full invitation <ArrowRight className="size-4" />
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       <section className="px-4 py-24 sm:py-32">
         <Reveal><SectionHeading eyebrow="Moments" title="Gallery" /></Reveal>
