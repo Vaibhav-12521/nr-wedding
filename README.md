@@ -2,8 +2,6 @@
 
 *A Celebration of Love, Family & Forever.*
 
-> **New here? Follow [GETTING-STARTED.md](GETTING-STARTED.md)** - step-by-step setup, build and deployment.
-
 A wedding website and a **private, invite-only family photo album** in one app.
 
 - **Public site** (no login): homepage with invitation-opening animation, live countdown, story & timeline,
