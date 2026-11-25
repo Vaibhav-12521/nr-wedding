@@ -5,7 +5,11 @@ import { Download, Expand, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** The couple's printed invitation card, framed like a keepsake. Tap to view full screen. */
-export function InvitationCardPhoto({ src, names, className }: { src: string; names: string; className?: string }) {
+export function InvitationCardPhoto({ src, names, className, fitScreen }: {
+  src: string; names: string; className?: string;
+  /** Cap the card's height so it and its buttons fit in one screen. */
+  fitScreen?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const filename = `${names.replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "")}-invitation.webp`;
   const download = `${src}?download=${encodeURIComponent(filename)}`;
@@ -20,21 +24,22 @@ export function InvitationCardPhoto({ src, names, className }: { src: string; na
   }, [open]);
 
   return (
-    <figure className={cn("group relative mx-auto w-full max-w-md", className)}>
+    <figure className={cn("group relative mx-auto flex w-full max-w-md flex-col items-center", className)}>
       {/* soft golden halo behind the card */}
       <div aria-hidden className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(ellipse_at_center,rgba(201,169,110,0.35),transparent_70%)] blur-2xl" />
       <button type="button" onClick={() => setOpen(true)}
-        className="relative block w-full rotate-[-1.5deg] rounded-xl bg-gradient-to-br from-[#f7e7b4] via-[#c99b4a] to-[#8f6524] p-[3px] shadow-[0_30px_60px_-24px_rgba(90,40,20,0.55),0_12px_24px_-8px_rgba(90,60,30,0.25)] transition duration-700 ease-[var(--ease-soft)] hover:rotate-0 hover:scale-[1.015] focus-visible:rotate-0 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold/40"
+        className={cn("relative block rotate-[-1.5deg] rounded-xl bg-gradient-to-br from-[#f7e7b4] via-[#c99b4a] to-[#8f6524] p-[3px] shadow-[0_30px_60px_-24px_rgba(90,40,20,0.55),0_12px_24px_-8px_rgba(90,60,30,0.25)] transition duration-700 ease-[var(--ease-soft)] hover:rotate-0 hover:scale-[1.015] focus-visible:rotate-0 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold/40", fitScreen ? "w-fit max-w-full" : "w-full")}
         aria-label="View the invitation card full screen">
         <span className="block overflow-hidden rounded-[0.6rem] bg-cream">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt={`Wedding invitation card for ${names}`} className="block h-auto w-full" />
+          <img src={src} alt={`Wedding invitation card for ${names}`}
+            className={cn("block h-auto", fitScreen ? "max-h-[72svh] w-auto max-w-full lg:max-h-[calc(100svh-12.5rem)]" : "w-full")} />
         </span>
         <span className="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-cocoa/70 px-3 py-1.5 text-xs font-medium text-ivory opacity-0 backdrop-blur transition group-hover:opacity-100 group-focus-within:opacity-100">
           <Expand className="size-3.5" /> View full size
         </span>
       </button>
-      <figcaption className="relative mt-7 flex flex-wrap items-center justify-center gap-3">
+      <figcaption className="relative mt-5 flex flex-wrap items-center justify-center gap-3">
         <button type="button" onClick={() => setOpen(true)}
           className="inline-flex h-10 items-center gap-2 rounded-full border border-gold/50 bg-cream/80 px-5 text-sm font-medium text-gold-deep transition hover:border-gold hover:bg-cream">
           <Expand className="size-4" /> View card
